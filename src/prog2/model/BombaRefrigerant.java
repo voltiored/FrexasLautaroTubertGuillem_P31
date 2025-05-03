@@ -8,7 +8,7 @@ public class BombaRefrigerant implements InBombaRefrigerant{
     private boolean foraDeServei; //Indica si esta fora de servei
     private VariableUniforme variable;
 
-    public BombaRefrigerant(int id, VariableUniforme variable) {
+    public BombaRefrigerant(VariableUniforme variable, int id) {
         this.id=id;
         this.variable = variable;
     }
@@ -41,7 +41,7 @@ public class BombaRefrigerant implements InBombaRefrigerant{
         int valor = variable.seguentValor();
         if (valor < 25) {
             foraDeServei = true;
-            p.registra("Bomba refrigerant amb id " + id + " ha quedat fora de servei.");
+            p.AfegeixIncidencia("Bomba refrigerant amb id " + id + " ha quedat fora de servei.");
         }
     }
 
