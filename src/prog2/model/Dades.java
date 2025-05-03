@@ -68,7 +68,6 @@ public class Dades implements InDades, Serializable {
      */
     private PaginaEconomica actualitzaEconomia(float demandaPotencia){
         float potenciaGenerada = calculaPotencia();
-        float percentatgePotenciaSatisfeta = (potenciaGenerada / demandaPotencia) * 100;
         float beneficis = potenciaGenerada * PREU_UNITAT_POTENCIA;
 
         float penalitzacio = 0;
@@ -86,10 +85,9 @@ public class Dades implements InDades, Serializable {
         return new PaginaEconomica(
                 dia,
                 demandaPotencia,
-                potenciaGenerada,
-                percentatgePotenciaSatisfeta,
                 beneficis,
                 penalitzacio,
+                potenciaGenerada,
                 costosOperatius,
                 guanysAcumulats
         );
@@ -157,8 +155,10 @@ public class Dades implements InDades, Serializable {
         for(BombaRefrigerant b : sistemaRefrigeracio.bombesRefrigerants){
             if(b.getId() == id){
                 b.desactiva();
+                return;
             }
         }
+        System.out.println("No s'ha trobat cap bomba amb aquest id.");
     }
 
     @Override
