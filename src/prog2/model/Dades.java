@@ -80,7 +80,7 @@ public class Dades implements InDades, Serializable {
                 generadorVapor.getCostOperatiu() +
                 turbina.getCostOperatiu();
 
-        guanysAcumulats += GUANYS_INICIALS + beneficis - penalitzacio - costosOperatius;
+        guanysAcumulats += beneficis - (penalitzacio + costosOperatius);
 
         return new PaginaEconomica(
                 dia,

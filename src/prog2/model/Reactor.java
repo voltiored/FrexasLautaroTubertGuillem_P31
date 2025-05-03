@@ -39,7 +39,7 @@ public class Reactor implements InComponent, Serializable {
     @Override
     public void revisa(PaginaIncidencies p) {
         if (temperatura > 1000f) {
-            p.AfegeixIncidencia("El reactor ha quedat fora de servei.");
+            p.afegeixIncidencia("El reactor ha quedat fora de servei.");
         }
         else{
             System.out.println("El reactor no presenta cap anormalitat, esta activat");
