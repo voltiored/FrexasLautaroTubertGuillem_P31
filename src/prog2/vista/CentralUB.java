@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package prog2.vista;
+import prog2.model.VariableNormal;
 
 /**
  *
