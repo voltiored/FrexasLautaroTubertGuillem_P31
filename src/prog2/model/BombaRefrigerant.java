@@ -20,7 +20,7 @@ public class BombaRefrigerant implements InBombaRefrigerant{
 
     @Override
     public void activa() throws CentralUBException {
-        if (!estaActiva){
+        if (foraDeServei) {
             throw new CentralUBException("La bomba refrigerant esta fora de servei");
         }
         estaActiva=true;

@@ -4,22 +4,35 @@
  */
 package prog2.model;
 
+import prog2.vista.CentralUBException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Daniel Ortiz
  */
-public class Dades {
+public class Dades implements InDades {
     public final static long  VAR_UNIF_SEED = 123;
     public final static float GUANYS_INICIALS = 0;
     public final static float PREU_UNITAT_POTENCIA = 1;
     public final static float PENALITZACIO_EXCES_POTENCIA = 250;
-
     // Afegir atributs:
+    private VariableUniforme variableUniforme;
+    private float insercioBarres;
+    private Reactor reactor;
+    private SistemaRefrigeracio sistemaRefrigeracio;
+    private GeneradorVapor generadorVapor;
+    private Turbina turbina;
+    private Bitacola bitacola;
+    private int dia = 1;
+    private float guanysAcumulats = 0f;
 
-    public Dades(){
+    public Dades() throws CentralUBException {
         // Inicialitza Atributs
         this.variableUniforme = new VariableUniforme(VAR_UNIF_SEED);
-        this.insercioBarres = 100;
+        this.insercioBarres = 100f;
         this.reactor = new Reactor();
         this.reactor.desactiva();
         this.sistemaRefrigeracio = new SistemaRefrigeracio();
@@ -53,14 +66,39 @@ public class Dades {
      * @param demandaPotencia Demanda de potència actual.
      */
     private PaginaEconomica actualitzaEconomia(float demandaPotencia){
-          // Completar
+        float potenciaGenerada = calculaPotencia();
+        float percentatgePotenciaSatisfeta = (potenciaGenerada / demandaPotencia) * 100;
+        float beneficis = potenciaGenerada * PREU_UNITAT_POTENCIA;
+
+        float penalitzacio = 0;
+        if (potenciaGenerada > demandaPotencia) {
+            penalitzacio = PENALITZACIO_EXCES_POTENCIA;
+        }
+
+        float costosOperatius = reactor.getCostOperatiu() +
+                sistemaRefrigeracio.getCostOperatiu() +
+                generadorVapor.getCostOperatiu() +
+                turbina.getCostOperatiu();
+
+        guanysAcumulats = GUANYS_INICIALS + beneficis - penalitzacio - costosOperatius;
+
+        return new PaginaEconomica(
+                dia,
+                demandaPotencia,
+                potenciaGenerada,
+                percentatgePotenciaSatisfeta,
+                beneficis,
+                penalitzacio,
+                costosOperatius,
+                guanysAcumulats
+        );
     }
 
     /**
      * Aquest mètode ha de establir la nova temperatura del reactor.
      */
     private void refrigeraReactor() {
-          // Completar
+          reactor.setTemperatura(Math.min(25f, reactor.calculaOutput(getInsercioBarres())-sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))));
     }
 
     /**
@@ -70,7 +108,90 @@ public class Dades {
      * @param paginaIncidencies Pàgina d'incidències.
      */
     private void revisaComponents(PaginaIncidencies paginaIncidencies) {
-          // Completar
+        reactor.revisa(paginaIncidencies);
+        sistemaRefrigeracio.revisa(paginaIncidencies);
+        generadorVapor.revisa(paginaIncidencies);
+        turbina.revisa(paginaIncidencies);
+    }
+
+    @Override
+    public float getInsercioBarres() {
+        return insercioBarres;
+    }
+
+    @Override
+    public void setInsercioBarres(float _insercioBarres) throws CentralUBException {
+        if (_insercioBarres < 0 || _insercioBarres > 100) {
+            throw new CentralUBException("Introdueix un percentatge entre 0 i 100");
+        }
+        insercioBarres = _insercioBarres;
+    }
+
+    @Override
+    public void activaReactor() throws CentralUBException {
+        reactor.activa();
+    }
+
+    @Override
+    public void desactivaReactor() {
+        reactor.desactiva();
+    }
+
+    @Override
+    public Reactor mostraReactor() {
+        return reactor;
+    }
+
+    @Override
+    public void activaBomba(int id) throws CentralUBException {
+        for(BombaRefrigerant b : sistemaRefrigeracio.bombesRefrigerants){
+            if(b.getId() == id){
+                b.activa();
+            }
+        }
+    }
+
+    @Override
+    public void desactivaBomba(int id) {
+        for(BombaRefrigerant b : sistemaRefrigeracio.bombesRefrigerants){
+            if(b.getId() == id){
+                b.desactiva();
+            }
+        }
+    }
+
+    @Override
+    public SistemaRefrigeracio mostraSistemaRefrigeracio() {
+        return sistemaRefrigeracio;
+    }
+
+    @Override
+    public float calculaPotencia() {
+        return turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))));
+    }
+
+    @Override
+    public float getGuanysAcumulats() {
+        return guanysAcumulats;
+    }
+
+    @Override
+    public PaginaEstat mostraEstat() {
+        return new PaginaEstat(dia, getInsercioBarres(),
+                reactor.calculaOutput(getInsercioBarres()),
+                sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres())),
+                generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))),
+                turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres())))));
+    }
+
+    @Override
+    public Bitacola mostraBitacola() {
+        return bitacola;
+    }
+
+    @Override
+    public List<PaginaIncidencies> mostraIncidencies() {
+        return bitacola.getIncidencies();
     }
 
     public Bitacola finalitzaDia(float demandaPotencia) {
