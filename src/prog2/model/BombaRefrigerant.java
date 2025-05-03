@@ -6,9 +6,11 @@ public class BombaRefrigerant implements InBombaRefrigerant{
     private int id; //identficador numèric
     private boolean estaActiva; //Indica si està activada o no
     private boolean foraDeServei; //Indica si esta fora de servei
+    private VariableUniforme variable;
 
     public BombaRefrigerant(int id, VariableUniforme variable) {
         this.id=id;
+        this.variable = variable;
     }
 
     @Override
@@ -33,17 +35,14 @@ public class BombaRefrigerant implements InBombaRefrigerant{
     public boolean getActivat() {
         return estaActiva;
     }
-    /**
-     * Revisa la bomba refrigerant. Es farà servir l'objecte de tipus
-     * VariableUniforme per determinar si la bomba es queda fora de servei. En
-     * cas afirmatiu, s'haurà de registrar la situació dins d'una pàgina
-     * d'incidències.
-     * @param p Objecte de tipus PaginaIncidencies per a registrar si la bomba
-     * es queda fora de servei.
-     */
+
     @Override
     public void revisa(PaginaIncidencies p) {
-
+        int valor = variable.seguentValor();
+        if (valor < 25) {
+            foraDeServei = true;
+            p.registra("Bomba refrigerant amb id " + id + " ha quedat fora de servei.");
+        }
     }
 
     @Override
