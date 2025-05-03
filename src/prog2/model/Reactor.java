@@ -36,7 +36,12 @@ public class Reactor implements InComponent {
 
     @Override
     public void revisa(PaginaIncidencies p) {
-        //p.AfegeixIncidencia("El reactor ha quedat fora de servei.");
+        if (temperatura > 1000f) {
+            p.AfegeixIncidencia("El reactor ha quedat fora de servei.");
+        }
+        else{
+            System.out.println("El reactor no presenta cap anormalitat, esta activat");
+        }
     }
 
     @Override

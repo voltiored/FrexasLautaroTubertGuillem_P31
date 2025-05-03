@@ -22,8 +22,6 @@ public class Turbina implements InComponent {
 
     @Override
     public void revisa(PaginaIncidencies p) {
-        //p.AfegeixIncidencia("El reactor ha quedat fora de servei.");
-
     }
 
     @Override

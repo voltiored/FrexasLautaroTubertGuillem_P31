@@ -22,7 +22,6 @@ public class GeneradorVapor implements InComponent {
 
     @Override
     public void revisa(PaginaIncidencies p) {
-        //p.AfegeixIncidencia("El generador de vapor ha quedat fora de servei.");
     }
 
     @Override
