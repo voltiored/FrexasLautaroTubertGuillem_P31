@@ -6,6 +6,7 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Daniel Ortiz
  */
-public class Dades implements InDades {
+public class Dades implements InDades, Serializable {
     public final static long  VAR_UNIF_SEED = 123;
     public final static float GUANYS_INICIALS = 0;
     public final static float PREU_UNITAT_POTENCIA = 1;

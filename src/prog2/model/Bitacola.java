@@ -1,9 +1,10 @@
 package prog2.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bitacola implements InBitacola{
+public class Bitacola implements InBitacola, Serializable {
     private ArrayList<PaginaBitacola> bitacolas;
 
     @Override

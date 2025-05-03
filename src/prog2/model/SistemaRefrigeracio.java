@@ -2,9 +2,10 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SistemaRefrigeracio implements InComponent {
+public class SistemaRefrigeracio implements InComponent, Serializable {
     ArrayList<BombaRefrigerant> bombesRefrigerants;
     private boolean estaActivat;
 

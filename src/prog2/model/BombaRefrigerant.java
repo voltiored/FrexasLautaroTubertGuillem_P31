@@ -2,7 +2,9 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
-public class BombaRefrigerant implements InBombaRefrigerant{
+import java.io.Serializable;
+
+public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
     private int id; //identficador numèric
     private boolean estaActiva; //Indica si està activada o no
     private boolean foraDeServei; //Indica si esta fora de servei

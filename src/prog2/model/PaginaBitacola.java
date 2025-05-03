@@ -1,4 +1,6 @@
 package prog2.model;
 
-public class PaginaBitacola {
+import java.io.Serializable;
+
+public class PaginaBitacola implements Serializable {
 }
