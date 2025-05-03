@@ -76,7 +76,10 @@ public class PaginaEstat extends PaginaBitacola{
     public float getOutputTurbina() {
         return outputTurbina;
     }
-
+    /**
+     * Metode que retorna una cadena de caracters amb tota la informacio de la pagina
+     * @return la informacio de la pagina
+     */
     public String toString(){
         return ("# Pàgina Estat\n" +
                 "- Dia: "+ getNumDia() + "\n" +

@@ -4,9 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Representacio d'una bitacola
+ * @author Lautaro Frexas
+ * @author Guillem Tubert
+ */
+
 public class Bitacola implements InBitacola{
+    /**
+     * Llista amb les pagines de la bitacola
+     */
     private ArrayList<PaginaBitacola> paginesBitacola;
 
+    /**
+     * Constructor de la classe bitacola
+     */
     public Bitacola(){
         paginesBitacola = new ArrayList<>();
     }
@@ -39,6 +51,10 @@ public class Bitacola implements InBitacola{
         return paginesIncidencies;
     }
 
+    /**
+     * Metode que retorna una cadena de caracters amb la informacio de totes les pagines
+     * @return la informacio de totes les pagines
+     */
     public String toString(){
         Iterator<PaginaBitacola> it = paginesBitacola.iterator();
         String resultat = "";

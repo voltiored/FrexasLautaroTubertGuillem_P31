@@ -1,5 +1,8 @@
 package prog2.model;
 
+/**
+ * Representacio d'una pagina de la bitacola
+ */
 public class PaginaBitacola {
     /**
      * El nombre del dia

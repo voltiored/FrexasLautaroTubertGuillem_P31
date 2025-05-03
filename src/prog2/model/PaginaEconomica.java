@@ -99,6 +99,11 @@ public class PaginaEconomica extends PaginaBitacola{
     public float getGuanysAcumulats() {
         return guanysAcumulats;
     }
+
+    /**
+     * Metode que retorna una cadena de caracters amb tota la informacio de la pagina
+     * @return la informacio de la pagina
+     */
     public String toString(){
         return ("# Pàgina Econòmica\n" +
                 "- Dia: " + getNumDia() + "\n" +
