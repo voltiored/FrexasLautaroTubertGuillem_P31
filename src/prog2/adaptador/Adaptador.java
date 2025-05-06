@@ -10,9 +10,27 @@ import java.util.List;
 public class Adaptador {
     private Dades dades;
 
-    public Adaptador(Dades dades) {
-        this.dades = dades;
+    public Adaptador() throws CentralUBException {
+        dades = new Dades();
     }
+
+    /**
+     * @return el grau d'inserció de les barres, en percentatge
+     */
+    public float getInsercioBarres(){
+        return dades.getInsercioBarres();
+    }
+
+    /**
+     * Metode per a canviar el percentatge d'insercio
+     * @param percentatge el nou percentatge
+     * @throws CentralUBException si el percentatge esta per sota o per sobre dels valors establerts
+     */
+    public void setInsercioBarres(float percentatge) throws CentralUBException {
+        dades.setInsercioBarres(percentatge);
+    }
+
+
 
     /**
      * Retorna totes les incidències com un únic String, amb cada incidència
