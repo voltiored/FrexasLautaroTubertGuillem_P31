@@ -9,6 +9,10 @@ public class SistemaRefrigeracio implements InComponent, Serializable {
     ArrayList<BombaRefrigerant> bombesRefrigerants;
     private boolean estaActivat;
 
+    public SistemaRefrigeracio(){
+        bombesRefrigerants = new ArrayList<>();
+    }
+
     public void afegirBomba(BombaRefrigerant b) throws CentralUBException {
         bombesRefrigerants.add(b);
     }

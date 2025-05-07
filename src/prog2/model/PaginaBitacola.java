@@ -1,9 +1,11 @@
 package prog2.model;
 
+import java.io.Serializable;
+
 /**
  * Representacio d'una pagina de la bitacola
  */
-public class PaginaBitacola {
+public class PaginaBitacola implements Serializable {
     /**
      * El nombre del dia
      */

@@ -54,54 +54,63 @@ public class CentralUB {
         System.out.println("La demanda de potència elèctrica avui es de " + demandaPotencia + " unitats");
 
         // Completar
-        
-    }
-
-    public void gestioMenuPrincipal(Scanner sc){
+        Scanner sc = new Scanner(System.in);
         Menu menuPrincipal = new Menu<>("Menú Principal", opcionsMenuPrincipal.values());
         menuPrincipal.setDescripcions(opcionsMenuPrincipalS);
         int opcio;
+        String cami;
 
         do{
             menuPrincipal.mostrarMenu();
             opcio = sc.nextInt();
+            try {
+                switch (opcio) {
+                    case 1:
+                        gestioMenuBarresControl(sc);
+                        break;
+                    case 2:
+                        gestioMenuReactor(sc);
+                        break;
+                    case 3:
+                        gestioSistemaRefrigeracio(sc);
+                        break;
+                    case 4:
+                        adaptador.mostraEstat();
+                        break;
+                    case 5:
+                        adaptador.mostraBitacola();
+                        break;
+                    case 6:
+                        adaptador.mostraIncidencies();
+                        break;
+                    case 7:
+                        float demandaSatisfeta = adaptador.calculaPotencia();
 
-            switch(opcio){
-                case 1:
-                    gestioMenuBarresControl(sc);
-                    break;
-                case 2:
-                    gestioMenuReactor(sc);
-                    break;
-                case 3:
-                    gestioSistemaRefrigeracio(sc);
-                    break;
-                case 4:
-                    //Mostrar estat central
-                    break;
-                case 5:
-                    //Mostrar bitacola
-                    break;
-                case 6:
-                    //Mostrar incidencies
-                    break;
-                case 7:
-                    //Obtenir demanda satis amb conf actual
-                    break;
-                case 8:
-                    //Finalitzar dia
-                    break;
-                case 9:
-                    //Guardar dades
-                    break;
-                case 10:
-                    //Carregar dades
-                    break;
-                case 11:
-                    System.out.println("Adeu");
-                    break;
-                default:
-                    System.out.println("Aquesta entrada no és vàlida. Introdueix un nombre entre el 1 i el 11.");
+                        System.out.println("La demanda de potència del dia és de: " + demandaPotencia + " unitats de potencia." +
+                                "\nLa potència generada amb la configuració actual és de: " + demandaSatisfeta + " unitats de potència." +
+                                "\nEl percentatge de la demanda satisfeta és de: " + demandaSatisfeta / demandaPotencia * 100 + "%.");
+                        break;
+                    case 8:
+                        finalitzaDia();
+                        break;
+                    case 9:
+                        System.out.println("Introdueix el camí per a guardar les dades.");
+                        cami = sc.nextLine();
+                        adaptador.guardaDades(cami);
+                        break;
+                    case 10:
+                        System.out.println("Introdueix el camí per a carregar les dades.");
+                        cami = sc.nextLine();
+                        adaptador.carregaDades(cami);
+                        break;
+                    case 11:
+                        System.out.println("Adeu");
+                        break;
+                    default:
+                        System.out.println("Aquesta entrada no és vàlida. Introdueix un nombre entre el 1 i el 11.");
+                }
+            }catch(CentralUBException e){
+                System.out.println(e.getMessage());
             }
 
         }while(opcio != 11);
@@ -122,7 +131,7 @@ public class CentralUB {
 
             switch(opcio){
                 case 1:
-                    adaptador.getInsercioBarres();
+                    System.out.println("L'inserció de les barres és de " + adaptador.getInsercioBarres() + "%.");
                     break;
                 case 2:
                     System.out.println("Quin percentage vols inserir?");
@@ -130,7 +139,7 @@ public class CentralUB {
                     try {
                         adaptador.setInsercioBarres(percentatge);
                     }catch(CentralUBException e){
-                        e.getMessage();
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 3:
@@ -150,21 +159,24 @@ public class CentralUB {
             menuReactor.mostrarMenu();
 
             opcio = sc.nextInt();
-
-            switch(opcio){
-                case 1:
-                    //Activar reactor
-                    break;
-                case 2:
-                    //Desactivar reactor
-                    break;
-                case 3:
-                    //Mostrar estat
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Aquesta entrada no és vàlida. Introdueix un nombre entre el 1 i el 4.");
+            try {
+                switch (opcio) {
+                    case 1:
+                        adaptador.activaReactor();
+                        break;
+                    case 2:
+                        adaptador.desactivaReactor();
+                        break;
+                    case 3:
+                        System.out.println(adaptador.mostraReactor());
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        System.out.println("Aquesta entrada no és vàlida. Introdueix un nombre entre el 1 i el 4.");
+                }
+            }catch(CentralUBException e){
+                System.out.println(e.getMessage());
             }
         }while(opcio != 4);
     }
@@ -173,32 +185,46 @@ public class CentralUB {
         Menu menuSistemaRefrigeracio = new Menu<>("Gestió Sistema Refrigeració", opcionsMenuSistemaRefrigeracio.values());
         menuSistemaRefrigeracio.setDescripcions(opcionsMenuSistemaRefrigeracioS);
         int opcio;
-
+        int idBomba;
         do{
             menuSistemaRefrigeracio.mostrarMenu();
 
             opcio = sc.nextInt();
+        try {
 
-            switch(opcio){
+            switch (opcio) {
                 case 1:
-                    //Activar totes les bombes
+                    adaptador.activaBomba(0);
+                    adaptador.activaBomba(1);
+                    adaptador.activaBomba(2);
+                    adaptador.activaBomba(3);
                     break;
                 case 2:
-                    //Desactivar totes les bombes
+                    adaptador.desactivaBomba(0);
+                    adaptador.desactivaBomba(1);
+                    adaptador.desactivaBomba(2);
+                    adaptador.desactivaBomba(3);
                     break;
                 case 3:
-                    //Activar bomba
+                    System.out.println("Introdueix l'id de la bomba que vols activar.");
+                    idBomba = sc.nextInt();
+                    adaptador.activaBomba(idBomba);
                     break;
                 case 4:
-                    //Desactivar bomba
+                    System.out.println("Introdueix l'id de la bomba que vols desactivar.");
+                    idBomba = sc.nextInt();
+                    adaptador.desactivaBomba(idBomba);
                     break;
                 case 5:
-                    //Mostrar estat
+                    adaptador.mostrarSistemaRefrigeracio();
                 case 6:
                     break;
                 default:
                     System.out.println("Aquesta entrada no és vàlida. Introdueix un nombre entre el 1 i el 6.");
             }
+        }catch(CentralUBException e){
+            System.out.println(e.getMessage());
+        }
         }while(opcio != 6);
     }
 

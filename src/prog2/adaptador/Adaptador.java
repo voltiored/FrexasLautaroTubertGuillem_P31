@@ -2,6 +2,8 @@ package prog2.adaptador;
 
 import prog2.model.Dades;
 import prog2.model.PaginaIncidencies;
+import prog2.model.Reactor;
+import prog2.model.SistemaRefrigeracio;
 import prog2.vista.CentralUBException;
 
 import java.io.*;
@@ -30,7 +32,67 @@ public class Adaptador {
         dades.setInsercioBarres(percentatge);
     }
 
+    /**
+     * Metode que activa el reactor
+     * @throws CentralUBException si la temperatura del reactor és superior als 1000º C
+     */
+    public void activaReactor() throws CentralUBException {
+        dades.activaReactor();
+    }
 
+    /**
+     * Metode que desactiva el reactor
+     */
+    public void desactivaReactor(){
+        dades.desactivaReactor();
+    }
+
+    /**
+     * Metode que mostra l'estat del reactor
+     */
+    public String mostraReactor(){
+        String estat;
+        estat = (dades.mostraReactor().getActivat()) ? "activat":"desactivat";
+        return "El reactor està " + estat + " i té una temperatura de " + dades.mostraReactor().getTemperatura() + "ºC.";
+    }
+
+    /**
+     * Metode que activa una bomba refrigerant
+     * @param id l'id de la bomba a activar
+     * @throws CentralUBException si la bomba esta fora de servei
+     */
+    public void activaBomba(int id) throws CentralUBException {
+        dades.activaBomba(id);
+    }
+
+    /**
+     * Metode que desactiva una bomba refrigerant
+     * @param id l'id de la bomba a desactivar
+     */
+    public void desactivaBomba(int id){
+        dades.desactivaBomba(id);
+    }
+
+    /**
+     * Metode que mostra l'estat del sistema de refrigeracio
+     */
+    public void mostrarSistemaRefrigeracio(){
+            SistemaRefrigeracio sistema = dades.mostraSistemaRefrigeracio();
+    }
+
+    /**
+     * Metode que mostra la pagina d'estat (provisional) del dia actual
+     */
+    public void mostraEstat(){
+        System.out.println(dades.mostraEstat().toString());
+    }
+
+    /**
+     * Metode que mostra tota la informacio acumulada a la bitacola
+     */
+    public void mostraBitacola(){
+    System.out.println(dades.mostraBitacola().toString());
+    }
 
     /**
      * Retorna totes les incidències com un únic String, amb cada incidència
@@ -42,10 +104,17 @@ public class Adaptador {
         StringBuilder resultat = new StringBuilder();
 
         for (PaginaIncidencies incidencia : incidencies) {
-            resultat.append(incidencia).append("\n");
+            resultat.append(incidencia.toString()).append("\n");
         }
 
         return resultat.toString();
+    }
+    public float calculaPotencia(){
+            return dades.calculaPotencia();
+    }
+
+    public String finalitzaDia(float demandaPotencia){
+        return dades.finalitzaDia(demandaPotencia).toString();
     }
 
     public void guardaDades(String camiDesti) throws CentralUBException {
