@@ -67,6 +67,12 @@ public class Adaptador {
     }
 
     /**
+     * Metode que activa totes les bombes de refrigeracio
+     */
+    public void activaRefrigeracio(){
+        dades.mostraSistemaRefrigeracio().desactiva();
+    }
+    /**
      * Metode que desactiva una bomba refrigerant
      * @param id l'id de la bomba a desactivar
      */
@@ -74,6 +80,12 @@ public class Adaptador {
         dades.desactivaBomba(id);
     }
 
+    /**
+     * Metode que desactiva totes les bombes refrigerants
+     */
+    public void desactivaRefrigeracio(){
+        dades.mostraSistemaRefrigeracio().desactiva();
+    }
     /**
      * Metode que mostra l'estat del sistema de refrigeracio
      */

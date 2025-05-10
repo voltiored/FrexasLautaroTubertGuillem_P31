@@ -210,16 +210,10 @@ public class CentralUB {
 
             switch (opcio) {
                 case 1:
-                    adaptador.activaBomba(0);
-                    adaptador.activaBomba(1);
-                    adaptador.activaBomba(2);
-                    adaptador.activaBomba(3);
+                    adaptador.activaRefrigeracio();
                     break;
                 case 2:
-                    adaptador.desactivaBomba(0);
-                    adaptador.desactivaBomba(1);
-                    adaptador.desactivaBomba(2);
-                    adaptador.desactivaBomba(3);
+                    adaptador.desactivaRefrigeracio();
                     break;
                 case 3:
                     System.out.println("Introdueix l'id de la bomba que vols activar.");
