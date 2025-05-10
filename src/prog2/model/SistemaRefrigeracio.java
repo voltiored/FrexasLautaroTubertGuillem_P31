@@ -67,4 +67,8 @@ public class SistemaRefrigeracio implements InComponent, Serializable {
         }
         return Math.min(input, 250*bombesActives);
     }
+
+    public ArrayList<BombaRefrigerant> getBombesRefrigerants(){
+        return bombesRefrigerants;
+    }
 }

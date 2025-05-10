@@ -63,6 +63,7 @@ public class CentralUB {
         do{
             menuPrincipal.mostrarMenu();
             opcio = sc.nextInt();
+            sc.nextLine();
             try {
                 switch (opcio) {
                     case 1:

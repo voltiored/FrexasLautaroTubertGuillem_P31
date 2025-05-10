@@ -2,8 +2,6 @@ package prog2.adaptador;
 
 import prog2.model.Dades;
 import prog2.model.PaginaIncidencies;
-import prog2.model.Reactor;
-import prog2.model.SistemaRefrigeracio;
 import prog2.vista.CentralUBException;
 
 import java.io.*;
@@ -51,8 +49,7 @@ public class Adaptador {
      * Metode que mostra l'estat del reactor
      */
     public String mostraReactor(){
-        String estat;
-        estat = (dades.mostraReactor().getActivat()) ? "activat":"desactivat";
+        String estat = (dades.mostraReactor().getActivat()) ? "activat":"desactivat";
         return "El reactor està " + estat + " i té una temperatura de " + dades.mostraReactor().getTemperatura() + "ºC.";
     }
 
@@ -77,7 +74,11 @@ public class Adaptador {
      * Metode que mostra l'estat del sistema de refrigeracio
      */
     public void mostrarSistemaRefrigeracio(){
-            SistemaRefrigeracio sistema = dades.mostraSistemaRefrigeracio();
+        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(0).toString());
+        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(1).toString());
+        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(2).toString());
+        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(3).toString());
+
     }
 
     /**
