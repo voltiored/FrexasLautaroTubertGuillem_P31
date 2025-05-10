@@ -13,7 +13,6 @@ public class PaginaBitacola implements Serializable {
 
     /**
      * Constructor de la classe PaginaBitacola
-     *
      * @param numDia El nombre del dia de la pàgina
      */
     public PaginaBitacola(int numDia) {

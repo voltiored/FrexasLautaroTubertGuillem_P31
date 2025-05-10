@@ -77,4 +77,21 @@ public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
                 ", Activitat=" + getActivat() +
                 ", Fora de Servei='" + getForaDeServei();
     }
+
+    /**
+     * Setter creat per a fer tests
+     * @param foraDeServei
+     */
+    public void setForaDeServei(boolean foraDeServei){
+        this.foraDeServei = foraDeServei;
+    }
+
+    /**
+     * Setter creat per a fer tests
+     * @param estaActiva
+     */
+
+    public void setEstaActiva(boolean estaActiva){
+        this.estaActiva = estaActiva;
+    }
 }

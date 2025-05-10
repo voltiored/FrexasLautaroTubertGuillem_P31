@@ -10,6 +10,10 @@ import java.util.List;
 public class Adaptador {
     private Dades dades;
 
+    /**
+     * Constructor de la classe Adaptador
+     * @throws CentralUBException
+     */
     public Adaptador() throws CentralUBException {
         dades = new Dades();
     }
@@ -110,14 +114,29 @@ public class Adaptador {
 
         return resultat.toString();
     }
+
+    /**
+     * Retorna la potència generada per la central. Aquesta potència es l'output de la turbina.
+     * @return la potència generada per la central. Aquesta potència es l'output de la turbina.
+     */
     public float calculaPotencia(){
             return dades.calculaPotencia();
     }
 
+    /**
+     * Duu a terme les accions relacionades amb la finalització d'un dia.
+     * @param demandaPotencia la demanda de potencia del dia
+     * @return un String amb la informacio de la pagina economica i la d'estat del dia
+     */
     public String finalitzaDia(float demandaPotencia){
         return dades.finalitzaDia(demandaPotencia).toString();
     }
 
+    /**
+     * Guarda les dades actuals de la central en un arxiu
+     * @param camiDesti on s'han de guardar les dades
+     * @throws CentralUBException si es produeix un error en guardar les dades
+     */
     public void guardaDades(String camiDesti) throws CentralUBException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(camiDesti))) {
             oos.writeObject(dades);
@@ -126,6 +145,11 @@ public class Adaptador {
         }
     }
 
+    /**
+     * Carrega les dades d'una central previament desada
+     * @param camiOrigen d'on s'han de carregar les dades
+     * @throws CentralUBException si hi ha algun error en carregar les dades
+     */
     public void carregaDades(String camiOrigen) throws CentralUBException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(camiOrigen))) {
             dades = (Dades) ois.readObject();

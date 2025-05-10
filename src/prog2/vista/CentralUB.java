@@ -47,7 +47,10 @@ public class CentralUB {
         // Afegir codi adicional si fos necessari:
         adaptador = new Adaptador();
     }
-    
+
+    /**
+     * Menu principal de l'aplicacio
+     */
     public void gestioCentralUB() {
         // Mostrar missatge inicial
         System.out.println("Benvingut a la planta PWR de la UB");
@@ -119,6 +122,10 @@ public class CentralUB {
 
     }
 
+    /**
+     * Submenu de les barres de control
+     * @param sc objecte de tipus scanner
+     */
     private void gestioMenuBarresControl(Scanner sc){
         Menu menuBarresControl = new Menu<>("Gestió Barres de Control", opcionsMenuBarresControl.values());
         menuBarresControl.setDescripcions(opcionsMenuBarresControlS);
@@ -151,6 +158,10 @@ public class CentralUB {
         }while(opcio != 3);
     }
 
+    /**
+     * Submenu del reactor
+     * @param sc objecte del tipus Scanner
+     */
     private void gestioMenuReactor(Scanner sc){
         Menu menuReactor = new Menu<>("Gestió Reactor", opcionsMenuReactor.values());
         menuReactor.setDescripcions(opcionsMenuReactorS);
@@ -182,6 +193,10 @@ public class CentralUB {
         }while(opcio != 4);
     }
 
+    /**
+     * Submenu del sistema de refrigeracio
+     * @param sc objecte de tipus scanner
+     */
     private void gestioSistemaRefrigeracio(Scanner sc){
         Menu menuSistemaRefrigeracio = new Menu<>("Gestió Sistema Refrigeració", opcionsMenuSistemaRefrigeracio.values());
         menuSistemaRefrigeracio.setDescripcions(opcionsMenuSistemaRefrigeracioS);
@@ -229,6 +244,10 @@ public class CentralUB {
         }while(opcio != 6);
     }
 
+    /**
+     * Metode que genera la demanda de potencia del dia actual
+     * @return la demanda de potencia del dia actual
+     */
     private float generaDemandaPotencia(){
         float valor = Math.round(variableNormal.seguentValor());
         if (valor > DEMANDA_MAX)
@@ -239,7 +258,10 @@ public class CentralUB {
             else
                 return valor;
     }
-    
+
+    /**
+     * Metode que finalitza el dia
+     */
     private void finalitzaDia() {
         // Finalitzar dia i imprimir informacio de la central
         String info = new String();
