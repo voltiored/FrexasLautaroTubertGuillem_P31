@@ -7,12 +7,11 @@ import prog2.vista.CentralUBException;
 import java.io.*;
 import java.util.List;
 
-public class Adaptador extends Dades {
+public class Adaptador {
     private Dades dades;
 
     /**
      * Constructor de la classe Adaptador
-     * @throws CentralUBException
      */
     public Adaptador() throws CentralUBException {
         dades = new Dades();
