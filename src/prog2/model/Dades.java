@@ -269,11 +269,12 @@ public class Dades implements InDades, Serializable {
      */
     @Override
     public PaginaEstat mostraEstat() {
-        return new PaginaEstat(dia, getInsercioBarres(),
-                reactor.calculaOutput(getInsercioBarres()),
-                sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres())),
-                generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))),
-                turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres())))));
+        float insercio = getInsercioBarres();
+        float outputReactor = reactor.calculaOutput(insercio);
+        float outputRef = sistemaRefrigeracio.calculaOutput(outputReactor);
+        float outputGenerador = generadorVapor.calculaOutput(outputRef);
+        float outputTurbina = turbina.calculaOutput(outputGenerador);
+        return new PaginaEstat(dia, insercio, outputReactor, outputRef, outputGenerador, outputTurbina);
     }
 
     /**
