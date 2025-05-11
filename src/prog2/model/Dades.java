@@ -13,23 +13,69 @@ import java.util.List;
 /**
  *
  * @author Daniel Ortiz
+ * @author Frexas Lautaro
+ * @author Tubert Guillem
  */
+
+
 public class Dades implements InDades, Serializable {
+    /**
+     * La variable usada per a calcular la variable uniforme
+     */
     public final static long  VAR_UNIF_SEED = 123;
+    /**
+     * Els guanys amb els que comença la central
+     */
     public final static float GUANYS_INICIALS = 0;
+    /**
+     * El preu (en unitats economiques) que cada unitat de potencia costa
+     */
     public final static float PREU_UNITAT_POTENCIA = 1;
+    /**
+     * La penalitzacio (en unitats economiques) per excedir la potencia demanada
+     */
     public final static float PENALITZACIO_EXCES_POTENCIA = 250;
     // Afegir atributs:
+    /**
+     * La variable uniforme usada per calcular si les Bombes Refrigerants paren de funcionar
+     */
     private VariableUniforme variableUniforme;
+    /**
+     * El grau d'inserció de les barres de control al reactor
+     */
     private float insercioBarres;
+    /**
+     * Objecte de tipus Reactor
+     */
     private Reactor reactor;
+    /**
+     * Objecte de tipus SistemaRefrigeracio
+     */
     private SistemaRefrigeracio sistemaRefrigeracio;
+    /**
+     * Objecte de tipus GeneradorVapor
+     */
     private GeneradorVapor generadorVapor;
+    /**
+     * Objecte de tipus turbina
+     */
     private Turbina turbina;
+    /**
+     * Objecte de tipus Bitacola, on es registrara la informacio de la central
+     */
     private Bitacola bitacola;
+    /**
+     * El dia actual
+     */
     private int dia = 1;
+    /**
+     * La quantitat de guanys (en unitats economiques) que ha acumulat la facultat
+     */
     private float guanysAcumulats = 0f;
 
+    /**
+     * Constructor de la classe Dades
+     */
     public Dades() throws CentralUBException {
         // Inicialitza Atributs
         this.variableUniforme = new VariableUniforme(VAR_UNIF_SEED);
@@ -113,11 +159,20 @@ public class Dades implements InDades, Serializable {
         turbina.revisa(paginaIncidencies);
     }
 
+    /**
+     *
+     * @return el grau d'insercio de les barres
+     */
     @Override
     public float getInsercioBarres() {
         return insercioBarres;
     }
 
+    /**
+     * Estableix el grau d'inserció de les barres de control en percentatge.
+     * @param _insercioBarres Percentatge d'inserció de les barres de control.
+     * @throws CentralUBException si el grau passat com a parametre es menor que 0 o major que 100
+     */
     @Override
     public void setInsercioBarres(float _insercioBarres) throws CentralUBException {
         if (_insercioBarres < 0 || _insercioBarres > 100) {
@@ -126,21 +181,37 @@ public class Dades implements InDades, Serializable {
         insercioBarres = _insercioBarres;
     }
 
+    /**
+     * Activa el reactor de la central
+     * @throws CentralUBException si la temperatura del reactor supera el 1000 graus
+     */
     @Override
     public void activaReactor() throws CentralUBException {
         reactor.activa();
     }
 
+    /**
+     * Desactiva el reactor
+     */
     @Override
     public void desactivaReactor() {
         reactor.desactiva();
     }
 
+    /**
+     * Retorna l'objecte que contè el reactor de la central.
+     * @return l'objecte que contè el reactor de la central.
+     */
     @Override
     public Reactor mostraReactor() {
         return reactor;
     }
 
+    /**
+     * Activa una bomba refrigerant amb Id donat com a paràmetre.
+     * @param id Identificador de la bomba que es vol activar.
+     * @throws CentralUBException si la bomba esta fora de servei
+     */
     @Override
     public void activaBomba(int id) throws CentralUBException {
         for(BombaRefrigerant b : sistemaRefrigeracio.bombesRefrigerants){
@@ -150,6 +221,10 @@ public class Dades implements InDades, Serializable {
         }
     }
 
+    /**
+     * Desactiva una bomba refrigerant amb Id donat com a paràmetre.
+     * @param id Identificador de la bomba que es vol activar.
+     */
     @Override
     public void desactivaBomba(int id) {
         for(BombaRefrigerant b : sistemaRefrigeracio.bombesRefrigerants){
@@ -161,21 +236,37 @@ public class Dades implements InDades, Serializable {
         System.out.println("No s'ha trobat cap bomba amb aquest id.");
     }
 
+    /**
+     * Retorna l'objecte que contè el sistema de refrigeració de la central.
+     * @return l'objecte que contè el sistema de refrigeració de la central.
+     */
     @Override
     public SistemaRefrigeracio mostraSistemaRefrigeracio() {
         return sistemaRefrigeracio;
     }
 
+    /**
+     * Retorna la potència generada per la central. Aquesta potència es l'output de la turbina. Es pot consultar la Figura 2 a l'enunciat per veure els detalls.
+     * @return la potència generada per la central.
+     */
     @Override
     public float calculaPotencia() {
         return turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))));
     }
 
+    /**
+     * Retorna els guanys acumulats actuals.
+     * @return els guanys acumulats actuals.
+     */
     @Override
     public float getGuanysAcumulats() {
         return guanysAcumulats;
     }
 
+    /**
+     * Retorna una pàgina de estat per a la configuració actual de la central.
+     * @return una pàgina de estat per a la configuració actual de la central.
+     */
     @Override
     public PaginaEstat mostraEstat() {
         return new PaginaEstat(dia, getInsercioBarres(),
@@ -185,16 +276,29 @@ public class Dades implements InDades, Serializable {
                 turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres())))));
     }
 
+    /**
+     * Retorna la bitacola de la central.
+     * @return la bitacola de la central.
+     */
     @Override
     public Bitacola mostraBitacola() {
         return bitacola;
     }
 
+    /**
+     * Retorna una llista amb totes les pàgines d'incidències de la bitàcola de la central.
+     * @return una llista amb totes les pàgines d'incidències de la bitàcola de la central.
+     */
     @Override
     public List<PaginaIncidencies> mostraIncidencies() {
         return bitacola.getIncidencies();
     }
 
+    /**
+     * Duu a terme les accions relacionades amb la finalització d'un dia. Per això és necessari coneixer la demanda de potència actual per al dia en curs.
+     * @param demandaPotencia Demanda de potència actual de la central.
+     * @return una Bitacola amb les pagines del dia que acaba
+     */
     public Bitacola finalitzaDia(float demandaPotencia) {
         // Actualitza economia
         PaginaEconomica paginaEconomica = actualitzaEconomia(demandaPotencia);
