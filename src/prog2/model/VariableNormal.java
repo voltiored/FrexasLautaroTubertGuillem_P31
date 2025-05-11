@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author Daniel Ortiz
  */
-public class VariableNormal {
+public class VariableNormal extends Reactor {
     private Random random;
     private float mean;
     private float standardDeviation;

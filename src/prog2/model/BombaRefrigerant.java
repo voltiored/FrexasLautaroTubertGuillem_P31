@@ -4,7 +4,7 @@ import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
 
-public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
+public class BombaRefrigerant extends SistemaRefrigeracio implements InBombaRefrigerant, Serializable {
     private int id; //identficador numèric
     private boolean estaActiva; //Indica si està activada o no
     private boolean foraDeServei; //Indica si esta fora de servei
@@ -43,8 +43,9 @@ public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
         int valor = variable.seguentValor();
         if (valor < 25) {
             foraDeServei = true;
+            estaActiva = false;
             p.afegeixIncidencia("Bomba refrigerant amb id " + id + " ha quedat fora de servei.");
-        }
+        } else foraDeServei = false;
     }
 
     @Override

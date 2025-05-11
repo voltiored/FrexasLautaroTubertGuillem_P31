@@ -5,11 +5,13 @@
  */
 package prog2.vista;
 
+import prog2.adaptador.Adaptador;
+
 /**
  *
  * @author dortiz
  */
-public class IniciadorCentralUB {
+public class IniciadorCentralUB extends CentralUB {
 
     /**
      * Main method of the program. It is used to start the program and to
