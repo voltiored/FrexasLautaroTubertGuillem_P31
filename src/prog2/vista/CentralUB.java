@@ -8,7 +8,7 @@ import prog2.adaptador.Adaptador;
 import java.util.Scanner;
 
 /**
- *
+ * Classe que conte els diferents menus del programa
  * @author Daniel Ortiz
  */
 public class CentralUB {
@@ -29,17 +29,46 @@ public class CentralUB {
      */
     Adaptador adaptador;
 
+    /**
+     * Les opcions del menu principal
+     */
     private enum opcionsMenuPrincipal {BARRES_CONTROL, REACTOR, SISTEMA_REFREIGERACIO, ESTAT_CENTRAL, BITACOLA, INCIDENCIES, DEMANDA_SATISFETA_ACTUAL, FIN_DIA, GUARDAR_DADES, CARREGA_DADES, SORTIR}
+
+    /**
+     * Les opcions del menu de barres de control
+     */
     private enum opcionsMenuBarresControl {OBTENIR_INSERCIO, ESTABLIR_INSERCIO, SORTIR}
+
+    /**
+     * Les opcions del menu del reactor
+     */
     private enum opcionsMenuReactor {ACTIVAR, DESACTIVAR, ESTAT, SORTIR}
+
+    /**
+     * Les opcions del menu del sistema de refrigeracio
+     */
     private enum opcionsMenuSistemaRefrigeracio {ACTIVAR_TOTES, DESACTIVAR_TOTES, ACTIVAR_UNA, DESACTIVAR_UNA, ESTAT, SORTIR}
 
+    /**
+     * Les opcions del menu principal en string
+     */
     private String[] opcionsMenuPrincipalS = {"Gestió Barres de Control", "Gestió Reactor", "Gestió Sistema de Refrigeració", "Mostrar Estat Central", "Mostrar Bitàcola", "Mostrar Incidències", "Obtenir Demanda Satisfeta amb Configuració Actual", "Finalitzar Dia", "Guardar Dades", "Carrega Dades", "Sortir"};
+    /**
+     * Les opcions del menu de barres de control en string
+     */
     private String[] opcionsMenuBarresControlS = {"Obtenir Inserció Barres", "Establir Inserció Barres", "Sortir"};
+    /**
+     * Les opcions del menu del reactor en string
+     */
     private String[] opcionsMenuReactorS = {"Activar Reactor", "Desactivar Reactor", "Mostrar Estat", "Sortir"};
+    /**
+     * Les opcions del menu del sistema de refrigeracio en string
+     */
     private String[] opcionsMenuSistemaRefrigeracioS = {"Activar Totes les Bombes", "Desactivar Totes les Bombes", "Activar Bomba", "Desactivar Bomba", "Mostrar Estar", "Sortir"};
 
-    /* Constructor*/
+    /**
+     *  Constructor
+     *  */
     public CentralUB() throws CentralUBException {
         variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
         demandaPotencia = generaDemandaPotencia();

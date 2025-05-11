@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Representacio d'una pagina de la bitacola
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
  */
 public class PaginaBitacola implements Serializable {
     /**

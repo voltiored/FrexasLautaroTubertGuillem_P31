@@ -7,6 +7,11 @@ import prog2.vista.CentralUBException;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Classe que serveix per a accedir a model des de vista
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class Adaptador {
     private Dades dades;
 

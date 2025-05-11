@@ -3,7 +3,11 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
-
+/**
+ * Classe que representa un reactor
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class Reactor implements InComponent, Serializable {
     /**
      * Si el reactor esta actiu o no

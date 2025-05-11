@@ -4,7 +4,11 @@ import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Classe que representa un sistema de refrigeració
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class SistemaRefrigeracio implements InComponent, Serializable {
     /**
      * Llista on guardarem les bombes de refrigeracio
@@ -50,6 +54,7 @@ public class SistemaRefrigeracio implements InComponent, Serializable {
         for (BombaRefrigerant b : bombesRefrigerants) {
             b.desactiva();
         }
+        estaActivat = false;
     }
 
     /**

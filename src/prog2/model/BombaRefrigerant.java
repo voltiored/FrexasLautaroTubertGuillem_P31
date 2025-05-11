@@ -3,7 +3,11 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
-
+/**
+ * Classe que representa una bomba refrigerant
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
     /**
      * L'identificador numèric

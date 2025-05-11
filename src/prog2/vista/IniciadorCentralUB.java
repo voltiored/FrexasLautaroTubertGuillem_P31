@@ -8,7 +8,7 @@ package prog2.vista;
 import prog2.adaptador.Adaptador;
 
 /**
- *
+ * Classe des de la qual es llança el programa
  * @author dortiz
  */
 public class IniciadorCentralUB {

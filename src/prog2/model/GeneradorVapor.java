@@ -3,7 +3,11 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
-
+/**
+ * Classe que representa un generador de vapor
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class GeneradorVapor implements InComponent, Serializable {
     /**
      * Indica si esta activat

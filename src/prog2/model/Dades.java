@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Classe per la qual es modifiquen les dades de la central
  * @author Daniel Ortiz
  * @author Frexas Lautaro
  * @author Tubert Guillem

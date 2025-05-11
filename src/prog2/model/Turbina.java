@@ -3,7 +3,11 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 import java.io.Serializable;
-
+/**
+ * Classe que representa una turbina
+ * @author Frexas Lautaro
+ * @author Guillem Tubert
+ */
 public class Turbina implements InComponent, Serializable {
     /**
      * Si la turbina esta activada
