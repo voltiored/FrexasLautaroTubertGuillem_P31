@@ -77,7 +77,27 @@ class DadesTest {
         assertFalse(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(1).getActivat());
     }
     @Test
-    void testCalculaPotencia(){
-        //Falta
+    void testCalculaPotencia() throws CentralUBException {
+        dades.mostraReactor().setTemperatura(25);
+        dades.mostraSistemaRefrigeracio();
+        dades.desactivaReactor();
+        dades.setInsercioBarres(100);
+        dades.mostraSistemaRefrigeracio().desactiva();
+        assertEquals(dades.calculaPotencia(), 0);
+
+        dades.activaReactor();
+        dades.setInsercioBarres(100);
+        dades.mostraSistemaRefrigeracio().desactiva();
+        assertEquals(dades.calculaPotencia(), 0);
+
+        dades.activaReactor();
+        dades.setInsercioBarres(50);
+        dades.mostraSistemaRefrigeracio().desactiva();
+        assertEquals(dades.calculaPotencia(), 0);
+
+        dades.activaReactor();
+        dades.setInsercioBarres(50);
+        dades.mostraSistemaRefrigeracio().activa();
+        assertEquals(dades.calculaPotencia(), 945);
     }
 }
