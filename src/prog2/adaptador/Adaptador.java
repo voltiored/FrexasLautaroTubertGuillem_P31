@@ -7,7 +7,7 @@ import prog2.vista.CentralUBException;
 import java.io.*;
 import java.util.List;
 
-public class Adaptador {
+public class Adaptador extends Dades {
     private Dades dades;
 
     /**

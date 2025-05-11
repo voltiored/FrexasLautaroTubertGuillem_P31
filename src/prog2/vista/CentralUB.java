@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Daniel Ortiz
  */
-public class CentralUB {
+public class CentralUB extends Adaptador {
     public final static float DEMANDA_MAX = 1800;
     public final static float DEMANDA_MIN = 250;
     public final static float VAR_NORM_MEAN = 1000;
