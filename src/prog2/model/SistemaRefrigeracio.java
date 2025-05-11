@@ -22,6 +22,7 @@ public class SistemaRefrigeracio implements InComponent, Serializable {
         for (BombaRefrigerant b : bombesRefrigerants) {
             b.activa();
         }
+        estaActivat = true;
     }
 
     @Override
