@@ -69,8 +69,8 @@ public class Adaptador {
     /**
      * Metode que activa totes les bombes de refrigeracio
      */
-    public void activaRefrigeracio(){
-        dades.mostraSistemaRefrigeracio().desactiva();
+    public void activaRefrigeracio() throws CentralUBException {
+        dades.mostraSistemaRefrigeracio().activa();
     }
     /**
      * Metode que desactiva una bomba refrigerant
