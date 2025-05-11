@@ -11,7 +11,7 @@ import java.util.List;
  * @author Guillem Tubert
  */
 
-public class Bitacola extends PaginaBitacola implements InBitacola, Serializable {
+public class Bitacola implements InBitacola, Serializable {
     /**
      * Llista amb les pagines de la bitacola
      */
