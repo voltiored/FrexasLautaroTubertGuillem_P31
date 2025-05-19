@@ -28,7 +28,12 @@ public class IniciadorCentralUB {
         //centralUB.gestioCentralUB();
 
         SwingUtilities.invokeLater(() -> {
-            AppCentralUB app = new AppCentralUB();
+            AppCentralUB app = null;
+            try {
+                app = new AppCentralUB();
+            } catch (CentralUBException e) {
+                throw new RuntimeException(e);
+            }
             app.setVisible(true);
         });
     }

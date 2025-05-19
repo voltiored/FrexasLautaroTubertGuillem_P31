@@ -77,6 +77,8 @@ public class CentralUB {
         adaptador = new Adaptador();
     }
 
+    public float getDemandaPotencia(){return this.demandaPotencia;}
+
     /**
      * Menu principal de l'aplicacio
      */
@@ -285,7 +287,7 @@ public class CentralUB {
     /**
      * Metode que finalitza el dia
      */
-    private void finalitzaDia() {
+    public void finalitzaDia() {
         // Finalitzar dia i imprimir informacio de la central
         String info = new String();
         info = adaptador.finalitzaDia(demandaPotencia);

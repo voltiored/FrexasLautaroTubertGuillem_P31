@@ -333,4 +333,9 @@ public class Dades implements InDades, Serializable {
         bitacolaDia.afegeixPagina(paginaIncidencies);
         return bitacolaDia;
     }
+    /**
+     * Retorna el dia actual.
+     * @return el dia actual.
+     */
+    public int getDia(){return dia;}
 }

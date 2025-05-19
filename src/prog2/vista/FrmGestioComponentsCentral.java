@@ -21,7 +21,7 @@ public class FrmGestioComponentsCentral extends JDialog {
     private JButton buttonOK;
 
     public FrmGestioComponentsCentral(Frame parent, Dades dades) {
-        super(parent, "Gestió de les barres de control", true);
+        super(parent, "Gestió de Components de la Central", true);
         this.dades = dades;
 
         $$$setupUI$$$();
@@ -54,16 +54,6 @@ public class FrmGestioComponentsCentral extends JDialog {
                     } else {
                         dades.desactivaReactor();
                     }
-                    //Actulitzem l'estat de les bombes refrigerants
-                    try {
-                        if (FrmGestioSistemaRefrigeracio.isBomba1Activa()) dades.activaBomba(0); else dades.desactivaBomba(0);
-                        if (FrmGestioSistemaRefrigeracio.isBomba2Activa()) dades.activaBomba(1); else dades.desactivaBomba(1);
-                        if (FrmGestioSistemaRefrigeracio.isBomba3Activa()) dades.activaBomba(2); else dades.desactivaBomba(2);
-                        if (FrmGestioSistemaRefrigeracio.isBomba4Activa()) dades.activaBomba(3); else dades.desactivaBomba(3);
-                    } catch (CentralUBException ex) {
-                        JOptionPane.showMessageDialog(FrmGestioComponentsCentral.this, "Error aplicant bombes: " + ex.getMessage());
-                    }
-
                     dispose();
                 } catch (CentralUBException ex) {
                     JOptionPane.showMessageDialog(FrmGestioComponentsCentral.this,

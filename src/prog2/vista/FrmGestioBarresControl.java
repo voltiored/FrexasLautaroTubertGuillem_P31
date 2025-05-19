@@ -22,7 +22,7 @@ public class FrmGestioBarresControl extends JDialog {
     private static int valorModificatLocal; // valor provisional no aplicat
 
     public FrmGestioBarresControl(FrmGestioComponentsCentral parent, Dades dades) {
-        super(parent, "Gestió de Components", true);
+        super(parent, "Gestió de Barres de Control", true);
         this.dades = dades;
 
         $$$setupUI$$$();
@@ -55,6 +55,7 @@ public class FrmGestioBarresControl extends JDialog {
                     }
                     valorModificatLocal = valor; // només actualitzem el valor local
                     sldBarresControl.setValue(valor); // actualitzem també el slider
+                    dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(FrmGestioBarresControl.this,
                             "Introdueix un número vàlid entre 0 i 100", "Error", JOptionPane.ERROR_MESSAGE);
