@@ -3,7 +3,7 @@ package prog2.vista;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import prog2.model.Dades;
+import prog2.adaptador.Adaptador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,10 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
     private JLabel Bomba4;
     private JLabel labelSistemaRefri;
     private JButton btnConfirm;
-    private Dades dades;
+    JList<String> listBombesForaServei;
+    private JLabel lblForadeServei;
+    private Adaptador adaptador;
+    private DefaultListModel<String> modelBombesForaServei;
 
     private static boolean bomba1Activa;
     private static boolean bomba2Activa;
@@ -30,23 +33,60 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
     private static boolean bomba4Activa;
 
 
-    public FrmGestioSistemaRefrigeracio(FrmGestioComponentsCentral parent, Dades dades) {
+    public FrmGestioSistemaRefrigeracio(FrmGestioComponentsCentral parent, Adaptador adaptador) {
         super(parent, "Gestió Refrigeració", true);
-        this.dades = dades;
+        this.adaptador = adaptador;
 
         setContentPane(contentPane);
         setModal(true);
-        setSize(400, 300);
+        setSize(600, 300);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+        modelBombesForaServei = new DefaultListModel<>();
+        refrescaLlista();
+        listBombesForaServei.setModel(modelBombesForaServei);
 
         btnConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JCheckBox[] bombes = {chkBomba1, chkBomba2, chkBomba3, chkBomba4};
+
+                for (int i = 0; i < bombes.length; i++) {
+                    if (bombes[i].isSelected()) {
+                        try {
+                            adaptador.activaBomba(i);
+                        } catch (CentralUBException ex) {
+                            JOptionPane.showMessageDialog(
+                                    FrmGestioSistemaRefrigeracio.this,
+                                    "No es pot activar la bomba " + i + " perquè està fora de servei",
+                                    "Incidència",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                            bombes[i].setSelected(false);
+                            String idText = "ID = " + i;
+                            if (!modelBombesForaServei.contains(idText)) {
+                                modelBombesForaServei.addElement(idText);
+                            }
+                        }
+                    } else {
+                        adaptador.desactivaBomba(i);
+                    }
+                }
+                refrescaLlista();
                 dispose();
             }
         });
+    }
+
+    private void refrescaLlista() {
+        modelBombesForaServei.clear();
+        String estat = adaptador.mostrarSistemaRefrigeracio();
+        for (String linia : estat.split("\n")) {
+            if (linia.toLowerCase().contains("fora de servei='true")) {
+                modelBombesForaServei.addElement(linia.split(",")[0].trim());
+            }
+        }
     }
 
 
@@ -66,7 +106,7 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
      */
     private void $$$setupUI$$$() {
         contentPane = new JPanel();
-        contentPane.setLayout(new GridLayoutManager(5, 1, new Insets(10, 10, 10, 10), -1, -1));
+        contentPane.setLayout(new GridLayoutManager(5, 2, new Insets(10, 10, 10, 10), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -106,6 +146,11 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
         btnConfirm = new JButton();
         btnConfirm.setText("Confirmar");
         contentPane.add(btnConfirm, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        listBombesForaServei = new JList();
+        contentPane.add(listBombesForaServei, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        lblForadeServei = new JLabel();
+        lblForadeServei.setText("Bombes fora de servei");
+        contentPane.add(lblForadeServei, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

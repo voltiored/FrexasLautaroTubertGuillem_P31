@@ -3,7 +3,8 @@ package prog2.vista;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import prog2.model.Dades;
+import prog2.adaptador.Adaptador;
+import prog2.model.VariableNormal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,19 +12,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppCentralUB extends JFrame {
+    private Adaptador adaptador;
+    private int dia = 1;
+    private float demandaPotencia;
+    private float guanysAcumulats;
+    public final static float DEMANDA_MAX = 1800;
+    public final static float DEMANDA_MIN = 250;
+    public final static float VAR_NORM_MEAN = 1000;
+    public final static float VAR_NORM_STD = 800;
+    public final static long VAR_NORM_SEED = 123;
+    private VariableNormal variableNormal;
+
+
     private JPanel panel1;
     private JButton btnGestioComponentsCentral;
     private JLabel lblDia;
     private JLabel lblDemanda;
     private JLabel lblGuanys;
     private JButton btnFinalitzaDia;
-    Dades dades;
-    CentralUB centralUB;
 
 
     public AppCentralUB() throws CentralUBException {
-        this.dades = new Dades();           // Inicialitzem l'objecte
-        this.centralUB = new CentralUB();   // Suposant que tens un constructor per defecte
+        this.adaptador = new Adaptador();
+        variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
+        demandaPotencia = generaDemandaPotencia();
 
         $$$setupUI$$$(); // Afegeix-ho si no hi és explícitament
 
@@ -34,31 +46,64 @@ public class AppCentralUB extends JFrame {
         setContentPane(panel1);
 
         // Inicialitza les etiquetes amb valors actuals
-        lblDia.setText("Dia: " + dades.getDia());
-        lblGuanys.setText("Guanys: " + dades.getGuanysAcumulats());
-        lblDemanda.setText("Demanda: " + centralUB.getDemandaPotencia());
+        lblDia.setText("Dia: " + this.dia);
+        lblGuanys.setText("Guanys: " + guanysAcumulats);
+        lblDemanda.setText("Demanda: " + demandaPotencia);
 
         // Botó per obrir la finestra de gestió de components
         btnGestioComponentsCentral.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FrmGestioComponentsCentral dialog = new FrmGestioComponentsCentral(AppCentralUB.this, dades);
+                FrmGestioComponentsCentral dialog = new FrmGestioComponentsCentral(AppCentralUB.this, adaptador);
                 dialog.setVisible(true);
             }
         });
         btnFinalitzaDia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dades.finalitzaDia(centralUB.getDemandaPotencia());
-                centralUB.finalitzaDia();
+                JOptionPane.showMessageDialog(AppCentralUB.this, adaptador.finalitzaDia(demandaPotencia), "Bitacola del dia:", JOptionPane.INFORMATION_MESSAGE);
+                demandaPotencia = generaDemandaPotencia();
+                dia +=1;
                 actualitzaLables();
             }
         });
     }
     public void actualitzaLables() {
-        lblDia.setText("Dia: " + dades.getDia());
-        lblDemanda.setText("Demanda: " + centralUB.getDemandaPotencia());
-        lblGuanys.setText("Guanys: " + dades.getGuanysAcumulats());
+        guanysAcumulats +=obtenirGuanysDesdeBitacola();
+        lblDia.setText("Dia: " + this.dia);
+        lblDemanda.setText("Demanda: " + generaDemandaPotencia());
+        lblGuanys.setText("Guanys: " + guanysAcumulats);
+    }
+
+    private float obtenirGuanysDesdeBitacola(){
+        String bitacola = adaptador.mostraBitacola();
+        String[] linies = bitacola.split("\n");
+
+        for (int i = linies.length - 1; i >= 0; i--) {
+            String linia = linies[i].trim();
+            if(linia.toLowerCase().contains("guanys acumulats")){
+                try{
+                    String[] parts = linia.split(":");
+                    if(parts.length > 1){
+                        String valor = parts[1].trim().split(" ")[0];
+                        return Float.parseFloat(valor);
+                    }
+                } catch (Exception e){
+                    System.err.println("Error analitzant els guanys acumulats");
+                }
+            }
+        }
+        return 0f;
+    }
+    private float generaDemandaPotencia(){
+        float valor = Math.round(variableNormal.seguentValor());
+        if (valor > DEMANDA_MAX)
+            return DEMANDA_MAX;
+        else
+        if (valor < DEMANDA_MIN)
+            return DEMANDA_MIN;
+        else
+            return valor;
     }
 
     /**
@@ -78,7 +123,7 @@ public class AppCentralUB extends JFrame {
         btnGestioComponentsCentral.setText("Gestionar Central");
         panel2.add(btnGestioComponentsCentral, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 60), new Dimension(600, 60), 0, false));
         lblDia = new JLabel();
-        lblDia.setText("Dia: " + dades.getDia());
+        lblDia.setText("Dia: " + this.dia);
         panel2.add(lblDia, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lblDemanda = new JLabel();
         lblDemanda.setText("Demanda: ");
@@ -99,5 +144,6 @@ public class AppCentralUB extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
+
 
 }

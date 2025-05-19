@@ -3,6 +3,7 @@ package prog2.vista;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import prog2.adaptador.Adaptador;
 import prog2.model.Dades;
 
 import javax.swing.*;
@@ -11,18 +12,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FrmGestioComponentsCentral extends JDialog {
-    private final Dades dades;
+    private Adaptador adaptador;
     private JPanel contentPane;
     private JButton btnBarresControl;
     private JButton btnAplicarModificacions;
     private JButton btnCancelarModificacions;
     private JButton btnReactor;
     private JButton btnSistemaRefrigeracio;
-    private JButton buttonOK;
 
-    public FrmGestioComponentsCentral(Frame parent, Dades dades) {
+    public FrmGestioComponentsCentral(Frame parent, Adaptador adaptador) {
         super(parent, "Gestió de Components de la Central", true);
-        this.dades = dades;
+        this.adaptador = adaptador;
 
         $$$setupUI$$$();
         setContentPane(contentPane);
@@ -35,7 +35,7 @@ public class FrmGestioComponentsCentral extends JDialog {
         btnBarresControl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FrmGestioBarresControl dialog = new FrmGestioBarresControl(FrmGestioComponentsCentral.this, dades);
+                FrmGestioBarresControl dialog = new FrmGestioBarresControl(FrmGestioComponentsCentral.this, adaptador);
                 dialog.setVisible(true);
             }
         });
@@ -45,14 +45,14 @@ public class FrmGestioComponentsCentral extends JDialog {
                 try {
                     //Actualitzem els valors de les barres de control
                     int barresValor = FrmGestioBarresControl.getValorModificat();
-                    dades.setInsercioBarres(barresValor);
+                    adaptador.setInsercioBarres(barresValor);
 
                     //Actualitzem l'estat del reactor
                     boolean nouEstatReactor = FrmGestioReactor.getNouEstatReactor();
                     if (nouEstatReactor) {
-                        dades.activaReactor();
+                        adaptador.activaReactor();
                     } else {
-                        dades.desactivaReactor();
+                        adaptador.desactivaReactor();
                     }
                     dispose();
                 } catch (CentralUBException ex) {
@@ -78,7 +78,7 @@ public class FrmGestioComponentsCentral extends JDialog {
         btnSistemaRefrigeracio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FrmGestioSistemaRefrigeracio dialog = new FrmGestioSistemaRefrigeracio(FrmGestioComponentsCentral.this, dades);
+                FrmGestioSistemaRefrigeracio dialog = new FrmGestioSistemaRefrigeracio(FrmGestioComponentsCentral.this, adaptador);
                 dialog.setVisible(true);
             }
         });

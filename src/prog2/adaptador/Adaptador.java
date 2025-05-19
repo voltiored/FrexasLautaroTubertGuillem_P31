@@ -93,26 +93,25 @@ public class Adaptador {
     /**
      * Metode que mostra l'estat del sistema de refrigeracio
      */
-    public void mostrarSistemaRefrigeracio(){
-        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(0).toString());
-        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(1).toString());
-        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(2).toString());
-        System.out.println(dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(3).toString());
-
+    public String mostrarSistemaRefrigeracio(){
+        return dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(0).toString() + "\n" +
+            dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(1).toString() + "\n" +
+         dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(2).toString() + "\n" +
+        dades.mostraSistemaRefrigeracio().getBombesRefrigerants().get(3).toString();
     }
 
     /**
      * Metode que mostra la pagina d'estat (provisional) del dia actual
      */
-    public void mostraEstat(){
-        System.out.println(dades.mostraEstat().toString());
+    public String mostraEstat(){
+        return dades.mostraEstat().toString();
     }
 
     /**
      * Metode que mostra tota la informacio acumulada a la bitacola
      */
-    public void mostraBitacola(){
-    System.out.println(dades.mostraBitacola().toString());
+    public String mostraBitacola(){
+    return dades.mostraBitacola().toString();
     }
 
     /**

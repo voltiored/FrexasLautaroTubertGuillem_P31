@@ -165,7 +165,7 @@ public class Dades implements InDades, Serializable {
      */
     @Override
     public float getInsercioBarres() {
-        return insercioBarres;
+        return this.insercioBarres;
     }
 
     /**
@@ -178,7 +178,7 @@ public class Dades implements InDades, Serializable {
         if (_insercioBarres < 0 || _insercioBarres > 100) {
             throw new CentralUBException("Introdueix un percentatge entre 0 i 100");
         }
-        insercioBarres = _insercioBarres;
+        this.insercioBarres = _insercioBarres;
     }
 
     /**
@@ -269,12 +269,11 @@ public class Dades implements InDades, Serializable {
      */
     @Override
     public PaginaEstat mostraEstat() {
-        float insercio = getInsercioBarres();
-        float outputReactor = reactor.calculaOutput(insercio);
+        float outputReactor = reactor.calculaOutput(getInsercioBarres());
         float outputRef = sistemaRefrigeracio.calculaOutput(outputReactor);
         float outputGenerador = generadorVapor.calculaOutput(outputRef);
         float outputTurbina = turbina.calculaOutput(outputGenerador);
-        return new PaginaEstat(dia, insercio, outputReactor, outputRef, outputGenerador, outputTurbina);
+        return new PaginaEstat(dia, getInsercioBarres(), outputReactor, outputRef, outputGenerador, outputTurbina);
     }
 
     /**
