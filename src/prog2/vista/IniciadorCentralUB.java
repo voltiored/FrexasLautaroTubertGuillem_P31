@@ -7,6 +7,8 @@ package prog2.vista;
 
 import prog2.adaptador.Adaptador;
 
+import javax.swing.*;
+
 /**
  * Classe des de la qual es llança el programa
  * @author dortiz
@@ -23,7 +25,12 @@ public class IniciadorCentralUB {
         CentralUB centralUB=new CentralUB();
         
         // Inicialitza l'execució de la prog2.vista
-        centralUB.gestioCentralUB();
+        //centralUB.gestioCentralUB();
+
+        SwingUtilities.invokeLater(() -> {
+            AppCentralUB app = new AppCentralUB();
+            app.setVisible(true);
+        });
     }
     
 }
