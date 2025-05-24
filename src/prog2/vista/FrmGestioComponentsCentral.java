@@ -19,6 +19,7 @@ public class FrmGestioComponentsCentral extends JDialog {
     private JButton btnCancelarModificacions;
     private JButton btnReactor;
     private JButton btnSistemaRefrigeracio;
+    private JPanel botons;
 
     public FrmGestioComponentsCentral(Frame parent, Adaptador adaptador) {
         super(parent, "Gestió de Components de la Central", true);
@@ -27,7 +28,7 @@ public class FrmGestioComponentsCentral extends JDialog {
         $$$setupUI$$$();
         setContentPane(contentPane);
         setModal(true);
-        setSize(800, 500);
+        setSize(400, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         setLocationRelativeTo(parent);
@@ -53,6 +54,14 @@ public class FrmGestioComponentsCentral extends JDialog {
                         adaptador.activaReactor();
                     } else {
                         adaptador.desactivaReactor();
+                    }
+
+                    //Actualitzem l'estat del sistema de refrigeracio
+                    for (int i = 0; i < 4; i++){
+                        if (FrmGestioSistemaRefrigeracio.getBombesActivadesTemp()[i])
+                            adaptador.activaBomba(i);
+                        else
+                            adaptador.desactivaBomba(i);
                     }
                     dispose();
                 } catch (CentralUBException ex) {

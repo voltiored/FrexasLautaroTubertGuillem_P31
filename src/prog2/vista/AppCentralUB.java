@@ -26,21 +26,26 @@ public class AppCentralUB extends JFrame {
 
     private JPanel panel1;
     private JButton btnGestioComponentsCentral;
+    private JButton btnVisualitzarInformacio;
     private JLabel lblDia;
     private JLabel lblDemanda;
     private JLabel lblGuanys;
     private JButton btnFinalitzaDia;
+    private JPanel panelIzq;
+    private JPanel panelInfo;
+    private JLabel logoCentralUB;
+    private JLabel iconoEngranaje;
+    private JPanel panelBotons;
 
 
     public AppCentralUB() throws CentralUBException {
         this.adaptador = new Adaptador();
         variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
         demandaPotencia = generaDemandaPotencia();
-
         $$$setupUI$$$(); // Afegeix-ho si no hi és explícitament
 
         setTitle("Central UB");
-        setSize(1000, 650);
+        setSize(770, 572);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setContentPane(panel1);
@@ -50,11 +55,47 @@ public class AppCentralUB extends JFrame {
         lblGuanys.setText("Guanys: " + guanysAcumulats);
         lblDemanda.setText("Demanda: " + demandaPotencia);
 
+        JMenu menuArxiu = new JMenu("Arxiu");
+        JMenuItem menuArxiuGuardar = new JMenuItem("Guardar", 'S');
+        JMenuItem menuArxiuCarregar = new JMenuItem("Carregar", 'C');
+
+        menuArxiu.add(menuArxiuGuardar);
+        menuArxiuGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrmGuardarDades dialog = new FrmGuardarDades(AppCentralUB.this, adaptador);
+                dialog.setVisible(true);
+            }
+        });
+
+        menuArxiu.add(menuArxiuCarregar);
+        menuArxiuCarregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrmCarregarDades dialog = new FrmCarregarDades(AppCentralUB.this, adaptador);
+                dialog.setVisible(true);
+            }
+        });
+
+        JMenuBar barraMenu = new JMenuBar();
+        barraMenu.add(menuArxiu);
+        this.getContentPane().add(barraMenu, BorderLayout.NORTH);
+
+        logoCentralUB.setText(null);
+        logoCentralUB.setIcon(new ImageIcon("src/Resources/centralub_logo_pequena.png"));
+
         // Botó per obrir la finestra de gestió de components
         btnGestioComponentsCentral.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FrmGestioComponentsCentral dialog = new FrmGestioComponentsCentral(AppCentralUB.this, adaptador);
+                dialog.setVisible(true);
+            }
+        });
+        btnVisualitzarInformacio.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                FrmVisualitzarInformacio dialog = new FrmVisualitzarInformacio(AppCentralUB.this, adaptador);
                 dialog.setVisible(true);
             }
         });

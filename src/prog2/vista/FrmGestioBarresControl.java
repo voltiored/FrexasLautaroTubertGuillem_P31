@@ -9,6 +9,8 @@ import prog2.model.Dades;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,15 +39,18 @@ public class FrmGestioBarresControl extends JDialog {
         // Inicialitzem l'slider i el valor local amb el valor actual
         valorModificatLocal = (int) adaptador.getInsercioBarres();
         sldBarresControl.setValue(valorModificatLocal);
+        txtIntroduirInsercioBarresControl.setText(String.valueOf(valorModificatLocal));
+        lblInsercio.setText("Insercio Actual: " + adaptador.getInsercioBarres());
 
         // Quan es mou el slider, només canviem el valor local (no el model)
         sldBarresControl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+
                 valorModificatLocal = sldBarresControl.getValue();
+                txtIntroduirInsercioBarresControl.setText(String.valueOf(valorModificatLocal));
             }
         });
-
         // Botó per introduir un valor al camp de text
         btnIntroduirInsercioBarresControl.addActionListener(new ActionListener() {
             @Override
