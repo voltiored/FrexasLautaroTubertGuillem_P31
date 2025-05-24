@@ -103,6 +103,13 @@ public class AppCentralUB extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(AppCentralUB.this, adaptador.finalitzaDia(demandaPotencia), "Bitacola del dia:", JOptionPane.INFORMATION_MESSAGE);
+                if (reactorIncidencia()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Atenció: El reactor ha quedat fora de servei!",
+                            "Incidència detectada",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+
                 demandaPotencia = generaDemandaPotencia();
                 dia +=1;
                 actualitzaLables();
@@ -114,6 +121,19 @@ public class AppCentralUB extends JFrame {
         lblDia.setText("Dia: " + this.dia);
         lblDemanda.setText("Demanda: " + generaDemandaPotencia());
         lblGuanys.setText("Guanys: " + guanysAcumulats);
+    }
+
+    private boolean reactorIncidencia() {
+        String incidencia = adaptador.mostraIncidencies();
+        String[] linies = incidencia.split("\n");
+
+        for (int i = linies.length - 1; i >= 0; i--) {
+            String linia = linies[i].trim().toLowerCase();
+            if (linia.contains("el reactor ha quedat fora de servei")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private float obtenirGuanysDesdeBitacola(){

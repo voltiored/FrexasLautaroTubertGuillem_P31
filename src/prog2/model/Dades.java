@@ -340,7 +340,7 @@ public class Dades implements InDades, Serializable {
         bitacolaDia.afegeixPagina(paginaEstat);
         bitacolaDia.afegeixPagina(paginaIncidencies);
 
-        if (!reactor.getActivat()) {
+        if (reactor.getTemperatura()>1000f) {
             System.out.println("ATENCIÓ: El reactor ha estat desactivat per sobretemperatura!");
         }
         return bitacolaDia;
