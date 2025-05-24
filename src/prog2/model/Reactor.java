@@ -102,6 +102,6 @@ public class Reactor implements InComponent, Serializable {
         if (!estaActivat) {
             return temperatura;
         }
-        return temperatura + 10*(100-input);
+        return temperatura + 10 * (100 - input);
     }
 }

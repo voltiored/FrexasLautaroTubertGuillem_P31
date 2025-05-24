@@ -140,10 +140,19 @@ public class Dades implements InDades, Serializable {
     }
 
     /**
-     * Aquest mètode ha de establir la nova temperatura del reactor.
+     * Aquest mètode ha d’establir la nova temperatura del reactor.
      */
     private void refrigeraReactor() {
-          reactor.setTemperatura(Math.min(25f, reactor.calculaOutput(getInsercioBarres())-sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(getInsercioBarres()))));
+        float outputReactor = reactor.calculaOutput(getInsercioBarres());
+        float outputRefrigeracio = sistemaRefrigeracio.calculaOutput(outputReactor);
+        float novaTemperatura = outputReactor - outputRefrigeracio;
+
+        // La temperatura no pot ser inferior a 25 graus
+        if (novaTemperatura < 25.0f) {
+            novaTemperatura = 25.0f;
+        }
+
+        reactor.setTemperatura(novaTemperatura);
     }
 
     /**
@@ -330,6 +339,10 @@ public class Dades implements InDades, Serializable {
         bitacolaDia.afegeixPagina(paginaEconomica);
         bitacolaDia.afegeixPagina(paginaEstat);
         bitacolaDia.afegeixPagina(paginaIncidencies);
+
+        if (!reactor.getActivat()) {
+            System.out.println("ATENCIÓ: El reactor ha estat desactivat per sobretemperatura!");
+        }
         return bitacolaDia;
     }
     /**
