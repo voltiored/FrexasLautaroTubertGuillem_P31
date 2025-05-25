@@ -72,11 +72,22 @@ public class Dades implements InDades, Serializable {
      * La quantitat de guanys (en unitats economiques) que ha acumulat la facultat
      */
     private float guanysAcumulats = 0f;
+    /**
+     * La demanda de potencia actual
+     */
+    private float demandaPotencia;
+    public final static float DEMANDA_MAX = 1800;
+    public final static float DEMANDA_MIN = 250;
+    private VariableNormal variableNormal;
+    public final static float VAR_NORM_MEAN = 1000;
+    public final static float VAR_NORM_STD = 800;
+    public final static long VAR_NORM_SEED = 123;
 
     /**
      * Constructor de la classe Dades
      */
     public Dades() throws CentralUBException {
+
         // Inicialitza Atributs
         this.variableUniforme = new VariableUniforme(VAR_UNIF_SEED);
         this.insercioBarres = 100f;
@@ -90,6 +101,8 @@ public class Dades implements InDades, Serializable {
         this.bitacola = new Bitacola();
         this.dia = 1;
         this.guanysAcumulats = GUANYS_INICIALS;
+        this.demandaPotencia = 0;
+        this.variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
         
         // Afegeix bombes refrigerants
         BombaRefrigerant b0 = new BombaRefrigerant(variableUniforme, 0);
@@ -320,7 +333,7 @@ public class Dades implements InDades, Serializable {
      */
     public Bitacola finalitzaDia(float demandaPotencia) {
         // Actualitza economia
-        PaginaEconomica paginaEconomica = actualitzaEconomia(demandaPotencia);
+        PaginaEconomica paginaEconomica = actualitzaEconomia(this.demandaPotencia);
         
         // Genera pàgina d'estat amb la configuració escollida (la nova pàgina
         // d'estat inclou la nova configuració escollida pel operador abans de
@@ -338,6 +351,11 @@ public class Dades implements InDades, Serializable {
         
         // Incrementa dia
         dia += 1;
+
+        // Actualitzem la demanda de potència
+        float valor = Math.round(variableNormal.seguentValor());
+        if (valor > DEMANDA_MAX){ this.demandaPotencia = DEMANDA_MAX;}
+        else {this.demandaPotencia = Math.max(valor, DEMANDA_MIN);}
         
         // Guarda pàgines de bitacola
         bitacola.afegeixPagina(paginaEconomica);
@@ -349,10 +367,6 @@ public class Dades implements InDades, Serializable {
         bitacolaDia.afegeixPagina(paginaEconomica);
         bitacolaDia.afegeixPagina(paginaEstat);
         bitacolaDia.afegeixPagina(paginaIncidencies);
-
-        if (reactor.getTemperatura()>1000f) {
-            System.out.println("ATENCIÓ: El reactor ha estat desactivat per sobretemperatura!");
-        }
         return bitacolaDia;
     }
     /**
@@ -360,5 +374,13 @@ public class Dades implements InDades, Serializable {
      * @return el dia actual.
      */
     public int getDia(){return dia;}
+
+    /**
+     * Retorna la demanda de potencia actual
+     * @return la demanda de potencia actual
+     */
+    public float getDemandaPotencia(){
+        return demandaPotencia;
+    }
 
 }

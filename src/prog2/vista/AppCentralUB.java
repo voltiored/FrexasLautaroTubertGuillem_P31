@@ -117,15 +117,13 @@ public class AppCentralUB extends JFrame {
                 } catch (CentralUBException ex) {
                     throw new RuntimeException(ex);
                 }
-
-                demandaPotencia = generaDemandaPotencia();
                 actualitzaLables();
             }
         });
     }
     public void actualitzaLables() {
         lblDia.setText("Dia: " + adaptador.getDia());
-        lblDemanda.setText("Demanda: " + demandaPotencia);
+        lblDemanda.setText("Demanda: " + adaptador.getDemandaPotencia());
         lblGuanys.setText("Guanys: " + adaptador.getGuanysAcumulats());
     }
 

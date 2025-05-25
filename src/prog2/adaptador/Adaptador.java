@@ -29,6 +29,9 @@ public class Adaptador {
         return dades.getInsercioBarres();
     }
 
+    /**
+     * @return la temperatura del reactor
+     */
     public float getTemperaturaReactor() throws CentralUBException {return dades.reactorEnServei();}
 
     /**
@@ -175,6 +178,19 @@ public class Adaptador {
         }
     }
 
+    /**
+     * Retorna el dia actual
+     * @return el dia actual
+     */
     public int getDia(){return dades.getDia();}
+    /**
+     * Retorna els guanys acumulats
+     * @return els guanys acumulats
+     */
     public float getGuanysAcumulats(){return dades.getGuanysAcumulats();}
+    /**
+     * Retorna la demanda de potencia actual
+     * @return la demanda de potencia actual
+     */
+    public float getDemandaPotencia(){return dades.getDemandaPotencia();}
 }
