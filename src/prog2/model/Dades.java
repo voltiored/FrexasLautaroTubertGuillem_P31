@@ -199,6 +199,16 @@ public class Dades implements InDades, Serializable {
         reactor.activa();
     }
 
+
+    /**
+     * Retorna la temperatura del reactor
+     * @throws CentralUBException si la temperatura del reactor supera el 1000 graus
+     */
+    public float reactorEnServei() throws CentralUBException {
+        return reactor.getTemperatura();
+    }
+
+
     /**
      * Desactiva el reactor
      */

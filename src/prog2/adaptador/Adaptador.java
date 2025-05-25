@@ -29,6 +29,8 @@ public class Adaptador {
         return dades.getInsercioBarres();
     }
 
+    public float getTemperaturaReactor() throws CentralUBException {return dades.reactorEnServei();}
+
     /**
      * Metode per a canviar el percentatge d'insercio
      * @param percentatge el nou percentatge

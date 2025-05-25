@@ -107,11 +107,15 @@ public class AppCentralUB extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(AppCentralUB.this, adaptador.finalitzaDia(demandaPotencia), "Bitacola del dia:", JOptionPane.INFORMATION_MESSAGE);
-                if (reactorIncidencia()) {
-                    JOptionPane.showMessageDialog(null,
-                            "Atenció: El reactor ha quedat fora de servei!",
-                            "Incidència detectada",
-                            JOptionPane.WARNING_MESSAGE);
+                try {
+                    if (adaptador.getTemperaturaReactor()>1000) {
+                        JOptionPane.showMessageDialog(null,
+                                "Atenció: El reactor ha quedat fora de servei!",
+                                "Incidència detectada",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (CentralUBException ex) {
+                    throw new RuntimeException(ex);
                 }
 
                 demandaPotencia = generaDemandaPotencia();
@@ -125,39 +129,6 @@ public class AppCentralUB extends JFrame {
         lblGuanys.setText("Guanys: " + adaptador.getGuanysAcumulats());
     }
 
-    private boolean reactorIncidencia() {
-        String incidencia = adaptador.mostraIncidencies();
-        String[] linies = incidencia.split("\n");
-
-        for (int i = linies.length - 1; i >= 0; i--) {
-            String linia = linies[i].trim().toLowerCase();
-            if (linia.contains("el reactor ha quedat fora de servei")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private float obtenirGuanysDesdeBitacola(){
-        String bitacola = adaptador.mostraBitacola();
-        String[] linies = bitacola.split("\n");
-
-        for (int i = linies.length - 1; i >= 0; i--) {
-            String linia = linies[i].trim();
-            if(linia.toLowerCase().contains("guanys acumulats")){
-                try{
-                    String[] parts = linia.split(":");
-                    if(parts.length > 1){
-                        String valor = parts[1].trim().split(" ")[0];
-                        return Float.parseFloat(valor);
-                    }
-                } catch (Exception e){
-                    System.err.println("Error analitzant els guanys acumulats");
-                }
-            }
-        }
-        return 0f;
-    }
     private float generaDemandaPotencia(){
         float valor = Math.round(variableNormal.seguentValor());
         if (valor > DEMANDA_MAX)
