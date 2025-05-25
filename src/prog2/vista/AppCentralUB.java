@@ -8,14 +8,12 @@ import prog2.model.VariableNormal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class AppCentralUB extends JFrame {
     private Adaptador adaptador;
-    private int dia = 1;
+    //private int dia = 1;
     private float demandaPotencia;
-    private float guanysAcumulats;
     public final static float DEMANDA_MAX = 1800;
     public final static float DEMANDA_MIN = 250;
     public final static float VAR_NORM_MEAN = 1000;
@@ -51,12 +49,12 @@ public class AppCentralUB extends JFrame {
         setContentPane(panel1);
 
         // Inicialitza les etiquetes amb valors actuals
-        lblDia.setText("Dia: " + this.dia);
-        lblGuanys.setText("Guanys: " + guanysAcumulats);
+        lblDia.setText("Dia: " + adaptador.getDia());
+        lblGuanys.setText("Guanys: " + adaptador.getGuanysAcumulats());
         lblDemanda.setText("Demanda: " + demandaPotencia);
 
         JMenu menuArxiu = new JMenu("Arxiu");
-        JMenuItem menuArxiuGuardar = new JMenuItem("Guardar", 'S');
+        JMenuItem menuArxiuGuardar = new JMenuItem("Guardar", 'G');
         JMenuItem menuArxiuCarregar = new JMenuItem("Carregar", 'C');
 
         menuArxiu.add(menuArxiuGuardar);
@@ -74,6 +72,12 @@ public class AppCentralUB extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 FrmCarregarDades dialog = new FrmCarregarDades(AppCentralUB.this, adaptador);
                 dialog.setVisible(true);
+                dialog.addWindowListener(new WindowAdapter(){
+                    @Override
+                    public void windowClosed(WindowEvent e){
+                        actualitzaLables();
+                    }
+                });
             }
         });
 
@@ -111,16 +115,14 @@ public class AppCentralUB extends JFrame {
                 }
 
                 demandaPotencia = generaDemandaPotencia();
-                dia +=1;
                 actualitzaLables();
             }
         });
     }
     public void actualitzaLables() {
-        guanysAcumulats +=obtenirGuanysDesdeBitacola();
-        lblDia.setText("Dia: " + this.dia);
-        lblDemanda.setText("Demanda: " + generaDemandaPotencia());
-        lblGuanys.setText("Guanys: " + guanysAcumulats);
+        lblDia.setText("Dia: " + adaptador.getDia());
+        lblDemanda.setText("Demanda: " + demandaPotencia);
+        lblGuanys.setText("Guanys: " + adaptador.getGuanysAcumulats());
     }
 
     private boolean reactorIncidencia() {
@@ -184,7 +186,7 @@ public class AppCentralUB extends JFrame {
         btnGestioComponentsCentral.setText("Gestionar Central");
         panel2.add(btnGestioComponentsCentral, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 60), new Dimension(600, 60), 0, false));
         lblDia = new JLabel();
-        lblDia.setText("Dia: " + this.dia);
+        lblDia.setText("Dia: " + adaptador.getDia());
         panel2.add(lblDia, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lblDemanda = new JLabel();
         lblDemanda.setText("Demanda: ");

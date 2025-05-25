@@ -27,12 +27,6 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
     private Adaptador adaptador;
     private DefaultListModel<String> modelBombesForaServei;
 
-    private static boolean bomba1Activa;
-    private static boolean bomba2Activa;
-    private static boolean bomba3Activa;
-    private static boolean bomba4Activa;
-    private static boolean[] bombesActivadesTemp = new boolean[4];
-
     public FrmGestioSistemaRefrigeracio(FrmGestioComponentsCentral parent, Adaptador adaptador) {
         super(parent, "Gestió Refrigeració", true);
         this.adaptador = adaptador;
@@ -46,20 +40,8 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
         String[] llistaBombes = adaptador.mostrarSistemaRefrigeracio().split("\n");
         JCheckBox[] bombes = {chkBomba1, chkBomba2, chkBomba3, chkBomba4};
         for(int i = 0; i < 4; i++){
-            if (llistaBombes[i].contains("Activitat=true")){
-                bombesActivadesTemp[i] = true;
-                bombes[i].setSelected(true);
-            }
-            else{
-                bombesActivadesTemp[i] = false;
-                bombes[i].setSelected(false);
-            }
-            if (llistaBombes[i].toLowerCase().contains("fora de servei='true")){
-                bombes[i].setSelected(false);
-                bombes[i].setEnabled(false);
-            }else{
-                bombes[i].setEnabled(true);
-            }
+            bombes[i].setSelected(FrmGestioComponentsCentral.getBombesActivadesTemp()[i]);
+            bombes[i].setEnabled(!llistaBombes[i].toLowerCase().contains("fora de servei='true"));
         }
 
         modelBombesForaServei = new DefaultListModel<>();
@@ -72,28 +54,7 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
                 JCheckBox[] bombes = {chkBomba1, chkBomba2, chkBomba3, chkBomba4};
 
                 for (int i = 0; i < bombes.length; i++) {
-                    if (bombes[i].isSelected()) {
-                        bombesActivadesTemp[i] = true;
-
-                        //Dejo esto comentado por si hace falta
-                        //try {
-                            //adaptador.activaBomba(i);
-                        /*} catch (CentralUBException ex) {
-                            JOptionPane.showMessageDialog(
-                                    FrmGestioSistemaRefrigeracio.this,
-                                    "No es pot activar la bomba " + i + " perquè està fora de servei",
-                                    "Incidència",
-                                    JOptionPane.ERROR_MESSAGE
-                            );
-                            bombes[i].setSelected(false);
-                            String idText = "ID = " + i;
-                            if (!modelBombesForaServei.contains(idText)) {
-                                modelBombesForaServei.addElement(idText);
-                            }
-                        }*/
-                    } else {
-                        adaptador.desactivaBomba(i);
-                    }
+                    FrmGestioComponentsCentral.getBombesActivadesTemp()[i] = bombes[i].isSelected();
                 }
                 refrescaLlista();
                 dispose();
@@ -109,9 +70,6 @@ public class FrmGestioSistemaRefrigeracio extends JDialog {
                 modelBombesForaServei.addElement(linia.split(",")[0].trim());
             }
         }
-    }
-    public static boolean[] getBombesActivadesTemp(){
-        return bombesActivadesTemp;
     }
 
     {

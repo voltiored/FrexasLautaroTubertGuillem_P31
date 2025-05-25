@@ -350,4 +350,5 @@ public class Dades implements InDades, Serializable {
      * @return el dia actual.
      */
     public int getDia(){return dia;}
+
 }

@@ -172,4 +172,7 @@ public class Adaptador {
             throw new CentralUBException("Error en carregar les dades: " + e.getMessage());
         }
     }
+
+    public int getDia(){return dades.getDia();}
+    public float getGuanysAcumulats(){return dades.getGuanysAcumulats();}
 }

@@ -4,7 +4,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import prog2.adaptador.Adaptador;
-import prog2.model.Dades;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +20,9 @@ public class FrmGestioComponentsCentral extends JDialog {
     private JButton btnSistemaRefrigeracio;
     private JPanel botons;
 
+    private static int valorBarraControl;
+    private static boolean[] bombesActivadesTemp = new boolean[4];
+
     public FrmGestioComponentsCentral(Frame parent, Adaptador adaptador) {
         super(parent, "Gestió de Components de la Central", true);
         this.adaptador = adaptador;
@@ -32,6 +34,18 @@ public class FrmGestioComponentsCentral extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         setLocationRelativeTo(parent);
+
+        valorBarraControl = (int) adaptador.getInsercioBarres();
+
+        String[] llistaBombes = adaptador.mostrarSistemaRefrigeracio().split("\n");
+        for(int i = 0; i < 4; i++){
+            if (llistaBombes[i].contains("Activitat=true") && !llistaBombes[i].toLowerCase().contains("fora de servei='true")){
+                bombesActivadesTemp[i] = true;
+            }
+            else{
+                bombesActivadesTemp[i] = false;
+            }
+        }
 
         btnBarresControl.addActionListener(new ActionListener() {
             @Override
@@ -45,8 +59,7 @@ public class FrmGestioComponentsCentral extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     //Actualitzem els valors de les barres de control
-                    int barresValor = FrmGestioBarresControl.getValorModificat();
-                    adaptador.setInsercioBarres(barresValor);
+                    adaptador.setInsercioBarres(valorBarraControl);
 
                     //Actualitzem l'estat del reactor
                     boolean nouEstatReactor = FrmGestioReactor.getNouEstatReactor();
@@ -58,7 +71,7 @@ public class FrmGestioComponentsCentral extends JDialog {
 
                     //Actualitzem l'estat del sistema de refrigeracio
                     for (int i = 0; i < 4; i++){
-                        if (FrmGestioSistemaRefrigeracio.getBombesActivadesTemp()[i])
+                        if (bombesActivadesTemp[i])
                             adaptador.activaBomba(i);
                         else
                             adaptador.desactivaBomba(i);
@@ -129,6 +142,9 @@ public class FrmGestioComponentsCentral extends JDialog {
         final Spacer spacer2 = new Spacer();
         panel2.add(spacer2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
+    public static boolean[] getBombesActivadesTemp(){return bombesActivadesTemp;}
+    public static int getValorBarraControl(){return valorBarraControl;}
+    public static void setValorBarraControl(int valorBarraControl){FrmGestioComponentsCentral.valorBarraControl = valorBarraControl;}
 
     /**
      * @noinspection ALL
