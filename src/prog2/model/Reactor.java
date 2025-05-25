@@ -75,9 +75,6 @@ public class Reactor implements InComponent, Serializable {
             estaActivat = false;
             p.afegeixIncidencia("El reactor ha quedat fora de servei.");
         }
-        else{
-            System.out.println("El reactor no presenta cap anormalitat, esta activat");
-        }
     }
 
     /**
@@ -87,9 +84,9 @@ public class Reactor implements InComponent, Serializable {
     @Override
     public float getCostOperatiu() {
         if (estaActivat) {
-            return 35f;
+            return 40f;
         }
-        return 0;
+        return 5f;
     }
 
     /**
